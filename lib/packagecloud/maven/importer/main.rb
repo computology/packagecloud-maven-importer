@@ -103,6 +103,15 @@ module Packagecloud
             puts "#{database.queued_count} artifacts left to upload..."
           end
 
+          if yes == false
+            print "Continue? [y/N]?"
+            answer = gets
+            if answer.chomp != "y"
+              puts 'Aborting!'
+              exit 1
+            end
+          end
+
           while path_pair = database.peek do
             full_path, base_path = path_pair
             print "Uploading #{base_path}..."
