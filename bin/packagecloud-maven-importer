@@ -1,0 +1,80 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "packagecloud/maven/importer"
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: packagecloud-maven-importer [options]"
+
+  opts.on("-m", "--maven-repository-path PATH_TO_MAVEN_REPOSITORY", "Path to local Maven repository (Example: ~/.m2/repository)") do |m|
+    options[:maven_repository_path] = m
+  end
+
+  opts.on("-u","--username USERNAME","packagecloud username") do |u|
+    options[:username] = u
+  end
+
+  opts.on("-h","--hostname HOSTNAME","packagecloud hostname") do |h|
+    options[:hostname] = h
+  end
+
+  opts.on("-p","--port PORT","packagecloud port") do |p|
+    options[:port] = p
+  end
+
+  opts.on("-s","--scheme SCHEME","packagecloud scheme (http/https)") do |s|
+    options[:scheme] = s
+  end
+
+  opts.on("-r","--repository REPOSITORY","packagecloud repository") do |r|
+    options[:repository] = r
+  end
+
+  opts.on("-a","--api-token API_TOKEN","packagecloud API token") do |a|
+    options[:api_token] = a
+  end
+
+end.parse!
+
+if options[:port].nil?
+  options[:port] = "443"
+end
+
+if options[:hostname].nil?
+  options[:hostname] = "packagecloud.io"
+end
+
+if options[:scheme].nil?
+  options[:scheme] = "https"
+end
+
+if options[:username].nil?
+  puts "username not found! Please pass packagecloud username with --username"
+  exit 1
+end
+
+if options[:repository].nil?
+  puts "repository not found! Please pass packagecloud repository with --repository"
+  exit 1
+end
+
+if options[:api_token].nil?
+  puts "API token not found! Please pass packagecloud API token with --api-token"
+  exit 1
+end
+
+if options[:maven_repository_path].nil?
+  puts "Maven path not supplied! Please pass path to Maven repository with --maven-repository-path"
+  exit 1
+end
+
+importer = Packagecloud::Maven::Importer::Main.new(username: options[:username],
+                                                   api_token: options[:api_token],
+                                                   hostname: options[:hostname],
+                                                   port: options[:port],
+                                                   scheme: options[:scheme],
+                                                   repository: options[:repository],
+                                                   maven_repository_path: options[:maven_repository_path])
+importer.run!
