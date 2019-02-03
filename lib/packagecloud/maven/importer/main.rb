@@ -82,33 +82,17 @@ module Packagecloud
             puts "Found #{artifacts_scanned} total uploadable artifacts (#{new_artifacts_scanned} previously unseen) out of #{files_scanned} scanned files in #{maven_repository_path}"
           end
 
-
-          # puts "#{new_artifacts}"
-
-          # puts "Choose action:"
-          # puts "  (i)mport artifacts"
-          # puts "  (v)iew unknown files"
-          # print ":"
-          # answer = gets
-          # if answer.chomp == "v"
-          #   puts "Unknown files:"
-          #   unknown_files.each do |f|
-          #     puts "  #{f}"
-          #   end
-          # end
-
           if database.queued_count == 0
             puts "Nothing left to upload"
           else
             puts "#{database.queued_count} artifacts left to upload..."
-          end
-
-          if yes == false
-            print "Continue? [y/N]?"
-            answer = gets
-            if answer.chomp != "y"
-              puts 'Aborting!'
-              exit 1
+            if yes == false
+              print "Continue? [y/N]?"
+              answer = gets
+              if answer.chomp != "y"
+                puts 'Aborting!'
+                exit 1
+              end
             end
           end
 
@@ -123,11 +107,14 @@ module Packagecloud
                            idempotent: true,
                            retry_limit: 5,
                            retry_interval: 5,
+                           headers: {'User-Agent' => "packagecloud-maven-importer v#{Packagecloud::Maven::Importer::VERSION} (#{RUBY_PLATFORM})"}
                            query: { key: base_path })
 
             puts "Done"
             database.finish!(full_path)
           end
+
+          exit 0
         end
       end
     end
