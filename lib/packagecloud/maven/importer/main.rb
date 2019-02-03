@@ -98,7 +98,10 @@ module Packagecloud
           end
 
           puts "Found #{found_artifacts.count} uploadable artifacts out of #{files_scanned} scanned files in #{maven_repository_path}"
-          puts "Choose action: (i)mport artifacts, (v)iew unknown files"
+          puts "Choose action:"
+          puts "  (i)mport artifacts"
+          puts "  (v)iew unknown files"
+          print ":"
           answer = gets
           if answer.chomp == "v"
             puts "Unknown files:"
@@ -108,7 +111,6 @@ module Packagecloud
           end
           if answer.chomp == "i"
             connection = Excon.new("#{scheme}://#{api_token}:@#{hostname}:#{port}", :persistent => true)
-            puts connection.inspect
             if File.exists?('packagecloud-maven-importer.queue')
               # resuming from failed run
               queue = Packagecloud::Maven::Importer::FileQueue.new('packagecloud-maven-importer.queue')
@@ -121,9 +123,16 @@ module Packagecloud
             end
             while item = queue.pop do
               artifact = JSON.parse(item.chomp)
-              connection.put(path: "/api/v1/repos/#{username}/#{repository}/artifacts.json", body: File.read(artifact["full_path"]), query: { key: artifact["sanitized_base_path"] })
+              puts "Uploading #{artifact['sanitized_base_path']}"
+              ## This will safely ignore any 422's for already existing artifacts and retry on errors (5xx)
+              connection.put(path: "/api/v1/repos/#{username}/#{repository}/artifacts.json",
+                             body: File.read(artifact["full_path"]),
+                             idempotent: true,
+                             retry_limit: 5,
+                             retry_interval: 5,
+                             query: { key: artifact["sanitized_base_path"] })
             end
-            
+
           end
         end
       end
