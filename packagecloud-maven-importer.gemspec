@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Julio Capote"]
   spec.email         = ["julio@packagecloud.io"]
 
-  spec.summary       = %q{Imports a local Maven repository to packagecloud.io}
+  spec.summary       = %q{Imports/Mirrors a local Maven repository to packagecloud.io}
   spec.homepage      = "https://github.com/computology/packagecloud-maven-importer"
   spec.license       = "MIT"
 
