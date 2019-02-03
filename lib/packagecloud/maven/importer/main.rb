@@ -107,7 +107,7 @@ module Packagecloud
                            idempotent: true,
                            retry_limit: 5,
                            retry_interval: 5,
-                           headers: {'User-Agent' => "packagecloud-maven-importer v#{Packagecloud::Maven::Importer::VERSION} (#{RUBY_PLATFORM})"}
+                           headers: {'User-Agent' => "packagecloud-maven-importer v#{Packagecloud::Maven::Importer::VERSION} (#{RUBY_PLATFORM})"},
                            query: { key: base_path })
 
             puts "Done"
