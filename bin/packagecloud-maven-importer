@@ -40,11 +40,11 @@ OptionParser.new do |opts|
     options[:yes] = y
   end
 
-  opts.on("-f","--force-start-over", "Clear database and start over") do |f|
+  opts.on("-f","--force-start-over", "Clear local artifact database and start over") do |f|
     options[:force] = f
   end
 
-  opts.on("-d","--database-path PATH_TO_DATABASE", "Path to local database (for resuming/incremental importing)") do |d|
+  opts.on("-d","--database-path PATH_TO_DATABASE", "Path to local artifact database (for resuming/incremental importing)") do |d|
     options[:database] = d
   end
 

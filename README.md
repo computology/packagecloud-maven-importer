@@ -15,8 +15,8 @@
     -r, --repository REPOSITORY      packagecloud repository
     -a, --api-token API_TOKEN        packagecloud API token
     -y, --yes                        Answer yes to any questions
-    -f, --force-start-over           Clear database and start over
-    -d PATH_TO_DATABASE,             Path to local database (for resuming uploads/incremental sync)
+    -f, --force-start-over           Clear local artifact database and start over
+    -d PATH_TO_DATABASE,             Path to local artifact database (for resuming uploads/incremental sync)
         --database-path
 
 ## Workflows
