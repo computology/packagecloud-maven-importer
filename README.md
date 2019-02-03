@@ -25,7 +25,14 @@ To import a repository located at `~/.m2/repository` into a packagecloud reposit
     --api-token 101010101                          \
     --maven-repository-path ~/.m2/repository
 
-For automation (such as periodic mirroring to a packagecloud repository), make sure to pass `--yes` to skip any confirmations.
+For automation (such as periodic mirroring to a packagecloud repository), make sure to pass `--yes` to skip any confirmations and a path to `--database-path` that will persist between runs.
+
+    packagecloud-maven-importer --username capotej \
+    --repository mvntest                           \
+    --api-token 101010101                          \
+    --yes                                          \
+    --database-path /opt/artifact-database         \
+    --maven-repository-path ~/.m2/repository
 
 To blow away the local artifact database and process/upload everything again, pass `--force-start-over`.
 
