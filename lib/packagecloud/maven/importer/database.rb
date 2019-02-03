@@ -6,11 +6,13 @@ module Packagecloud
       class Database
         attr_accessor :database
 
+        CREATE_SCHEMA = <<-SQL
+          CREATE TABLE IF NOT EXISTS artifacts (full_path TEXT PRIMARY KEY, base_path TEXT, state TEXT);
+        SQL
+
         def initialize(path:)
           self.database = SQLite3::Database.new(path)
-          self.database.execute <<-SQL
-          CREATE TABLE IF NOT EXISTS artifacts (full_path TEXT PRIMARY KEY, base_path TEXT, state TEXT);
-          SQL
+          self.database.execute(CREATE_SCHEMA)
         end
 
         def clear!
@@ -29,6 +31,11 @@ module Packagecloud
           self.database.execute <<-SQL
           UPDATE artifacts SET state='uploaded' WHERE (full_path='#{full_path}');
           SQL
+        end
+
+        def reset!
+          self.database.execute("DROP TABLE artifacts;")
+          self.database.execute(CREATE_SCHEMA)
         end
 
         def queued_count
