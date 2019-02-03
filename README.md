@@ -1,7 +1,33 @@
 # packagecloud Maven Importer
 
+Command line utility to import/mirror artifacts from a local Maven repository to a [packagecloud.io](https://packagecloud.io/l/maven-repository) repository.
 
 ## Features
+
+  * Supports JAR, WAR, POM, AAR and APK artifacts (along with their checksums, signatures, sources, and javadocs). However, `-SNAPSHOT` artifacts are __not__ supported.
+
+  * Only imports newly seen artifacts, can be run from cron to periodically mirror new artifacts.
+
+  * Import can be resumed if it fails.
+
+
+## Examples
+
+To import a repository located at `~/.m2/repository` into a packagecloud repository `capotej/mvntest`, you would run:
+
+    packagecloud-maven-importer --username capotej \
+    --repository mvntest                           \
+    --api-token 101010101                          \
+    --maven-repository-path ~/.m2/repository
+
+For automation (such as periodic mirroring to a packagecloud repository), make sure to pass `--yes` to skip any confirmations.
+
+To blow away the local artifact database and process/upload everything again, pass ```--force-start-over```.
+
+## How it works
+
+packagecloud maven importer builds a database of supported artifacts found at `--maven-repository-path`, then tries to upload them all one by one. On subsequent runs, it uses this database to only upload newly found artifacts (if any).
+
 
 ## Usage
 
@@ -18,10 +44,6 @@
     -f, --force-start-over           Clear local artifact database and start over
     -d PATH_TO_DATABASE,             Path to local artifact database (for resuming uploads/incremental sync)
         --database-path
-
-## Workflows
-
-#### Incremental Sync / Mirroring
 
 ## License
 
