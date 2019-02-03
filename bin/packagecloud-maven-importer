@@ -36,8 +36,23 @@ OptionParser.new do |opts|
     options[:api_token] = a
   end
 
+  opts.on("-y","--yes","Answer yes to any questions") do |y|
+    options[:yes] = y
+  end
+
+  opts.on("-f","--force-start-over", "Clear database and start over") do |f|
+    options[:force] = f
+  end
+
+  opts.on("-d","--database-path PATH_TO_DATABASE", "Path to local database (for resuming/incremental importing)") do |d|
+    options[:database] = d
+  end
+
 end.parse!
 
+##
+## Default arguments handling
+##
 if options[:port].nil?
   options[:port] = "443"
 end
@@ -50,6 +65,25 @@ if options[:scheme].nil?
   options[:scheme] = "https"
 end
 
+if options[:database].nil?
+  options[:database] = "packagecloud-artifact-database.db"
+end
+
+if options[:yes].nil?
+  options[:yes] = false
+else
+  options[:yes] = true
+end
+
+if options[:force].nil?
+  options[:force] = false
+else
+  options[:force] = true
+end
+
+##
+## Required argument handling
+##
 if options[:username].nil?
   puts "username not found! Please pass packagecloud username with --username"
   exit 1
@@ -70,11 +104,16 @@ if options[:maven_repository_path].nil?
   exit 1
 end
 
+
+# Note: By here all options[] should have a default or blow up if required argument is missing!
+
 importer = Packagecloud::Maven::Importer::Main.new(username: options[:username],
                                                    api_token: options[:api_token],
                                                    hostname: options[:hostname],
                                                    port: options[:port],
                                                    scheme: options[:scheme],
                                                    repository: options[:repository],
+                                                   database_path: options[:database],
                                                    maven_repository_path: options[:maven_repository_path])
-importer.run!
+
+importer.run!(yes: options[:yes], force: options[:force])
