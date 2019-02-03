@@ -38,7 +38,7 @@ To blow away the local artifact database and process/upload everything again, pa
 
 ## How it works
 
-packagecloud maven importer builds a database of supported artifacts found at `--maven-repository-path`, then tries to upload them all one by one. On subsequent runs, it uses this database to only upload newly found artifacts (if any).
+packagecloud Maven Importer builds a database of supported artifacts found at `--maven-repository-path`, then tries to upload them all one by one. On subsequent runs, it uses this database to only upload newly found artifacts (if any).
 
 
 ## Usage
