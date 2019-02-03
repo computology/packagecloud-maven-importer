@@ -10,6 +10,11 @@ Command line utility to import/mirror artifacts from a local Maven repository to
 
   * Import can be resumed if it fails.
 
+## Installation
+
+This gem requires that the `sqlite3` development libraries be present on your system prior to installation. To install these, try running `brew install sqlite3`, `yum install sqlite-devel` or `apt-get install libsqlite3-dev`.
+
+    gem install packagecloud-maven-importer
 
 ## Examples
 
@@ -22,7 +27,7 @@ To import a repository located at `~/.m2/repository` into a packagecloud reposit
 
 For automation (such as periodic mirroring to a packagecloud repository), make sure to pass `--yes` to skip any confirmations.
 
-To blow away the local artifact database and process/upload everything again, pass ```--force-start-over```.
+To blow away the local artifact database and process/upload everything again, pass `--force-start-over`.
 
 ## How it works
 
