@@ -100,7 +100,7 @@ module Packagecloud
           else
             puts "#{database.queued_count} artifacts left to upload..."
             if yes == false
-              print "Continue? [y/N]?"
+              print "Continue? [y/N]:"
               answer = gets
               if answer.chomp != "y"
                 puts 'Aborting!'
