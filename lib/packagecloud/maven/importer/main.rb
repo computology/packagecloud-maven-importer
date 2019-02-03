@@ -104,6 +104,7 @@ module Packagecloud
               ## This will safely ignore any 422's for already existing artifacts and retry on errors (5xx)
               connection.put(path: "/api/v1/repos/#{username}/#{repository}/artifacts.json",
                              body: File.read(artifact["full_path"]),
+                             expects: [201, 422],
                              idempotent: true,
                              retry_limit: 5,
                              retry_interval: 5,
