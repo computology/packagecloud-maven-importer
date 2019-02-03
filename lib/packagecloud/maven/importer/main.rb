@@ -47,6 +47,19 @@ module Packagecloud
 
         def run!(yes:false, force:false)
           puts "Starting packagecloud-maven-importer v#{Packagecloud::Maven::Importer::VERSION}"
+
+          if force == true
+            if yes == false
+              print "Delete local artifact database and start over? [y/N]:"
+              answer = gets
+              if answer.chomp != "y"
+                puts 'Aborting!'
+                exit 1
+              end
+            end
+            database.reset!
+          end
+
           unknown_files = []
           files_scanned = 0
           artifacts_scanned = 0
