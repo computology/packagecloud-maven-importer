@@ -47,6 +47,10 @@ module Packagecloud
           group_id.gsub("/", ".")
         end
 
+        def connection
+          @connection ||= Excon.new("#{scheme}://#{api_token}:@#{hostname}:#{port}", :persistent => true)
+        end
+
         def run!
           found_artifacts = []
           unknown_files = []
