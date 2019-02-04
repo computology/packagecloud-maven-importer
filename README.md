@@ -1,6 +1,8 @@
 # packagecloud Maven Importer
 
-Command line utility to import/mirror artifacts from a local Maven repository to a [packagecloud.io](https://packagecloud.io/l/maven-repository) repository.
+Command line utility to import/mirror artifacts from a local Maven repository to a [packagecloud.io maven repository](https://packagecloud.io/l/maven-repository).
+
+NOTE: This tool is currently in __beta__, it is recommended to try it out on a new packagecloud repository first.
 
 ## Features
 
@@ -63,7 +65,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in this project's, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/packagecloud-maven-importer/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in this project's issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/packagecloud-maven-importer/blob/master/CODE_OF_CONDUCT.md).
 
 ## Copyright
 
