@@ -70,7 +70,7 @@ module Packagecloud
             exit 1
           end
 
-          puts "Scanning #{maven_repository_path} for uploadable artifacts..."
+          puts "Building database of uploadable artifacts in #{maven_repository_path}..."
           Dir[File.join(maven_repository_path, "/**/*")].each do |possible_artifact|
             next if possible_artifact.end_with?('lastUpdated')
             next if possible_artifact.end_with?('repositories')
@@ -126,6 +126,7 @@ module Packagecloud
             puts "Done"
             database.finish!(full_path)
           end
+          puts "Finished"
 
           exit 0
         end
