@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "mustermann", "1.0.3"
   spec.add_runtime_dependency "sqlite3", "1.3.13"
-  spec.add_runtime_dependency "excon", "0.62.0"
+  spec.add_runtime_dependency "excon", "0.100.0"
 
   spec.add_development_dependency "bundler", "~> 1.17"
   spec.add_development_dependency "rake", "~> 10.0"
